@@ -3,15 +3,73 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <title>แจ้งซ่อม C Hitech</title>
+  <title>แจ้งซ่อมสินค้า | C Hitech</title>
   <style>
-    body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    input, select, textarea, button { width: 100%; padding: 8px; margin-top: 5px; }
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #fff;
+      color: #111;
+      max-width: 680px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    header img {
+      height: 60px;
+      margin-right: 20px;
+    }
+    h2 {
+      color: #f50;
+    }
+    label {
+      margin-top: 12px;
+      display: block;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #f50;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #d44000;
+    }
+    #response {
+      margin-top: 10px;
+      font-weight: bold;
+      color: green;
+    }
+    .preview a {
+      font-size: 14px;
+      color: #0077cc;
+      display: inline-block;
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
-  <h2>ฟอร์มแจ้งซ่อมสินค้า</h2>
+  <header>
+    <img src="https://raw.githubusercontent.com/chitech1981/repair-form-chitech/main/logo.jpg" alt="C Hitech Logo">
+    <h2>ฟอร์มแจ้งซ่อมสินค้า</h2>
+  </header>
+
   <form id="repairForm">
     <label>ชื่อผู้แจ้ง</label>
     <input type="text" name="name" required>
@@ -39,15 +97,15 @@
 
     <label>แนบรูปสินค้าเสีย</label>
     <input type="file" accept="image/*" onchange="previewUpload(event, 'imageUrl')" />
-    <span id="imageUrlPreview"></span>
+    <span class="preview" id="imageUrlPreview"></span>
 
     <label>แนบวิดีโอปัญหา (ถ้ามี)</label>
     <input type="file" accept="video/*" onchange="previewUpload(event, 'videoUrl')" />
-    <span id="videoUrlPreview"></span>
+    <span class="preview" id="videoUrlPreview"></span>
 
     <label>แนบรูปสลิป/สรุปคำสั่งซื้อ</label>
     <input type="file" accept="image/*" onchange="previewUpload(event, 'purchaseProof')" />
-    <span id="purchaseProofPreview"></span>
+    <span class="preview" id="purchaseProofPreview"></span>
 
     <input type="hidden" name="imageUrl" id="imageUrl">
     <input type="hidden" name="videoUrl" id="videoUrl">
@@ -64,7 +122,8 @@ function previewUpload(event, fieldId) {
   const reader = new FileReader();
   reader.onload = function(e) {
     document.getElementById(fieldId).value = e.target.result;
-    document.getElementById(fieldId + "Preview").innerHTML = "<a href='" + e.target.result + "' target='_blank'>ดูไฟล์ที่แนบ</a>";
+    document.getElementById(fieldId + "Preview").innerHTML =
+      "<a href='" + e.target.result + "' target='_blank'>ดูไฟล์ที่แนบ</a>";
   };
   reader.readAsDataURL(file);
 }
@@ -83,7 +142,10 @@ document.getElementById("repairForm").addEventListener("submit", function(e) {
   .then(res => res.text())
   .then(txt => {
     document.getElementById("response").innerText = "✅ ส่งข้อมูลสำเร็จแล้ว!";
-    document.getElementById("repairForm").reset();
+    e.target.reset();
+    ["imageUrlPreview", "videoUrlPreview", "purchaseProofPreview"].forEach(id => {
+      document.getElementById(id).innerHTML = "";
+    });
   })
   .catch(err => {
     document.getElementById("response").innerText = "❌ เกิดข้อผิดพลาด: " + err;
