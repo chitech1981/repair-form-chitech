@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ฟอร์มแจ้งซ่อม C Hitech</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      color: #ff6600;
+    }
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px solid #ff6600;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e65c00;
+    }
+    .logo {
+      display: block;
+      margin: 0 auto 20px;
+      width: 150px;
+    }
+  </style>
+</head>
+<body>
+  <img src="logo.jpg" alt="C Hitech Logo" class="logo" />
+  <h1>แจ้งซ่อมสินค้า</h1>
+  <form id="repairForm">
+    <label for="name">ชื่อผู้แจ้ง:</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="phone">เบอร์โทร:</label>
+    <input type="tel" id="phone" name="phone" required />
+
+    <label for="product">ประเภทสินค้า:</label>
+    <select id="product" name="product" required>
+      <option value="Digital Door Lock">Digital Door Lock</option>
+      <option value="Access Control">Access Control</option>
+      <option value="ประตูโรงรถ">ประตูโรงรถ</option>
+      <option value="ลิฟต์ในบ้าน">ลิฟต์ในบ้าน</option>
+    </select>
+
+    <label for="model">รุ่นสินค้า:</label>
+    <input type="text" id="model" name="model" required />
+
+    <label for="issue">อาการที่พบ:</label>
+    <textarea id="issue" name="issue" rows="3" required></textarea>
+
+    <label for="note">คำอธิบายเพิ่มเติม:</label>
+    <textarea id="note" name="note" rows="2"></textarea>
+
+    <label for="image">แนบลิงก์รูปภาพ:</label>
+    <input type="url" id="image" name="image" />
+
+    <label for="video">แนบลิงก์วิดีโอ (ถ้ามี):</label>
+    <input type="url" id="video" name="video" />
+
+    <label for="proof">แนบลิงก์สรุปคำสั่งซื้อ / สลิป:</label>
+    <input type="url" id="proof" name="proof" />
+
+    <button type="submit">ส่งข้อมูล</button>
+  </form>
+
+  <script>
+    document.getElementById("repairForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        product: document.getElementById("product").value,
+        model: document.getElementById("model").value,
+        issue: document.getElementById("issue").value,
+        note: document.getElementById("note").value,
+        imageUrl: document.getElementById("image").value,
+        videoUrl: document.getElementById("video").value,
+        purchaseProof: document.getElementById("proof").value,
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbzd_L-Y2Qe4NOiWiMRsHoMCoDMNhTOqLhREguvE0YcNTVD3ywnT0WPdTjGtHnu0-Jsd/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+      .then(res => res.text())
+      .then(response => {
+        alert("✅ ส่งข้อมูลสำเร็จ: " + response);
+        document.getElementById("repairForm").reset();
+      })
+      .catch(err => alert("❌ เกิดข้อผิดพลาด: " + err));
+    });
+  </script>
+</body>
+</html>
