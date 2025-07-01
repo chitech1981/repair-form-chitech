@@ -3,154 +3,121 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <title>แจ้งซ่อมสินค้า | C Hitech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ฟอร์มแจ้งซ่อม C Hitech</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #fff;
-      color: #111;
-      max-width: 680px;
-      margin: auto;
+      background-color: #f7f7f7;
+      color: #333;
       padding: 20px;
+    }
+    h1 {
+      color: #ff6600;
+    }
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px solid #ff6600;
       border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    }
-    header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    header img {
-      height: 60px;
-      margin-right: 20px;
-    }
-    h2 {
-      color: #f50;
+      max-width: 600px;
+      margin: auto;
     }
     label {
-      margin-top: 12px;
       display: block;
+      margin-top: 15px;
       font-weight: bold;
     }
     input, select, textarea, button {
       width: 100%;
       padding: 10px;
-      margin-top: 6px;
+      margin-top: 5px;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
+      box-sizing: border-box;
     }
     button {
-      background-color: #f50;
+      background-color: #ff6600;
       color: white;
       border: none;
       margin-top: 20px;
       cursor: pointer;
-      font-weight: bold;
     }
     button:hover {
-      background-color: #d44000;
+      background-color: #e65c00;
     }
-    #response {
-      margin-top: 10px;
-      font-weight: bold;
-      color: green;
-    }
-    .preview a {
-      font-size: 14px;
-      color: #0077cc;
-      display: inline-block;
-      margin-top: 5px;
+    .logo {
+      display: block;
+      margin: 0 auto 20px;
+      width: 150px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="https://raw.githubusercontent.com/chitech1981/repair-form-chitech/main/logo.jpg" alt="C Hitech Logo">
-    <h2>ฟอร์มแจ้งซ่อมสินค้า</h2>
-  </header>
-
+  <img src="logo.jpg" alt="C Hitech Logo" class="logo" />
+  <h1>แจ้งซ่อมสินค้า</h1>
   <form id="repairForm">
-    <label>ชื่อผู้แจ้ง</label>
-    <input type="text" name="name" required>
+    <label for="name">ชื่อผู้แจ้ง:</label>
+    <input type="text" id="name" name="name" required />
 
-    <label>เบอร์โทร</label>
-    <input type="tel" name="phone" required>
+    <label for="phone">เบอร์โทร:</label>
+    <input type="tel" id="phone" name="phone" required />
 
-    <label>ประเภทสินค้า</label>
-    <select name="product" required>
-      <option>กลอนประตูดิจิตอล</option>
-      <option>มอเตอร์ประตูไฟฟ้า</option>
-      <option>ประตูโรงรถ</option>
-      <option>ลิฟต์ในบ้าน</option>
-      <option>Access Control</option>
+    <label for="product">ประเภทสินค้า:</label>
+    <select id="product" name="product" required>
+      <option value="Digital Door Lock">Digital Door Lock</option>
+      <option value="Access Control">Access Control</option>
+      <option value="ประตูโรงรถ">ประตูโรงรถ</option>
+      <option value="ลิฟต์ในบ้าน">ลิฟต์ในบ้าน</option>
     </select>
 
-    <label>รุ่นสินค้า</label>
-    <input type="text" name="model">
+    <label for="model">รุ่นสินค้า:</label>
+    <input type="text" id="model" name="model" required />
 
-    <label>อาการที่พบ</label>
-    <textarea name="issue" required></textarea>
+    <label for="issue">อาการที่พบ:</label>
+    <textarea id="issue" name="issue" rows="3" required></textarea>
 
-    <label>คำอธิบายเพิ่มเติม</label>
-    <textarea name="note"></textarea>
+    <label for="note">คำอธิบายเพิ่มเติม:</label>
+    <textarea id="note" name="note" rows="2"></textarea>
 
-    <label>แนบรูปสินค้าเสีย</label>
-    <input type="file" accept="image/*" onchange="previewUpload(event, 'imageUrl')" />
-    <span class="preview" id="imageUrlPreview"></span>
+    <label for="image">แนบลิงก์รูปภาพ:</label>
+    <input type="url" id="image" name="image" />
 
-    <label>แนบวิดีโอปัญหา (ถ้ามี)</label>
-    <input type="file" accept="video/*" onchange="previewUpload(event, 'videoUrl')" />
-    <span class="preview" id="videoUrlPreview"></span>
+    <label for="video">แนบลิงก์วิดีโอ (ถ้ามี):</label>
+    <input type="url" id="video" name="video" />
 
-    <label>แนบรูปสลิป/สรุปคำสั่งซื้อ</label>
-    <input type="file" accept="image/*" onchange="previewUpload(event, 'purchaseProof')" />
-    <span class="preview" id="purchaseProofPreview"></span>
-
-    <input type="hidden" name="imageUrl" id="imageUrl">
-    <input type="hidden" name="videoUrl" id="videoUrl">
-    <input type="hidden" name="purchaseProof" id="purchaseProof">
+    <label for="proof">แนบลิงก์สรุปคำสั่งซื้อ / สลิป:</label>
+    <input type="url" id="proof" name="proof" />
 
     <button type="submit">ส่งข้อมูล</button>
-    <p id="response"></p>
   </form>
 
-<script>
-function previewUpload(event, fieldId) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    document.getElementById(fieldId).value = e.target.result;
-    document.getElementById(fieldId + "Preview").innerHTML =
-      "<a href='" + e.target.result + "' target='_blank'>ดูไฟล์ที่แนบ</a>";
-  };
-  reader.readAsDataURL(file);
-}
+  <script>
+    document.getElementById("repairForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        product: document.getElementById("product").value,
+        model: document.getElementById("model").value,
+        issue: document.getElementById("issue").value,
+        note: document.getElementById("note").value,
+        imageUrl: document.getElementById("image").value,
+        videoUrl: document.getElementById("video").value,
+        purchaseProof: document.getElementById("proof").value,
+      };
 
-document.getElementById("repairForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  const data = {};
-  formData.forEach((value, key) => data[key] = value);
-
-  fetch("https://script.google.com/macros/s/AKfycbwalfmkFavTvF-z5Sbe4CtojaSC7e7LwfslPaLa2zLrGzSlYclqGi62OGhe60JR_Q98/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(txt => {
-    document.getElementById("response").innerText = "✅ ส่งข้อมูลสำเร็จแล้ว!";
-    e.target.reset();
-    ["imageUrlPreview", "videoUrlPreview", "purchaseProofPreview"].forEach(id => {
-      document.getElementById(id).innerHTML = "";
+      fetch("https://script.google.com/macros/s/AKfycbzd_L-Y2Qe4NOiWiMRsHoMCoDMNhTOqLhREguvE0YcNTVD3ywnT0WPdTjGtHnu0-Jsd/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+      .then(res => res.text())
+      .then(response => {
+        alert("✅ ส่งข้อมูลสำเร็จ: " + response);
+        document.getElementById("repairForm").reset();
+      })
+      .catch(err => alert("❌ เกิดข้อผิดพลาด: " + err));
     });
-  })
-  .catch(err => {
-    document.getElementById("response").innerText = "❌ เกิดข้อผิดพลาด: " + err;
-  });
-});
-</script>
+  </script>
 </body>
 </html>
