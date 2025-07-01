@@ -3,66 +3,92 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <title>ฟอร์มแจ้งซ่อม - C Hitech</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>แจ้งซ่อม C Hitech</title>
   <style>
-    label { font-weight: bold; display: block; margin-top: 15px; }
-    .preview-link { margin-top: 5px; display: block; color: blue; text-decoration: underline; }
+    body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select, textarea, button { width: 100%; padding: 8px; margin-top: 5px; }
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.jpg" alt="C Hitech Logo" />
-    <div>
-      <h1>ฟอร์มแจ้งซ่อม</h1>
-      <small>C Hitech - DIGITAL DOOR LOCK</small>
-    </div>
-  </header>
-  <div class="container">
-    <form>
-      <label>ชื่อผู้แจ้ง</label>
-      <input type="text" name="name" required />
+  <h2>ฟอร์มแจ้งซ่อมสินค้า</h2>
+  <form id="repairForm">
+    <label>ชื่อผู้แจ้ง</label>
+    <input type="text" name="name" required>
 
-      <label>เบอร์ติดต่อ</label>
-      <input type="tel" name="phone" required />
+    <label>เบอร์โทร</label>
+    <input type="tel" name="phone" required>
 
-      <label>ประเภทสินค้า</label>
-      <select name="product" required>
-        <option>กลอนประตูดิจิตอล</option>
-        <option>มอเตอร์ประตูไฟฟ้า</option>
-        <option>ประตูโรงรถ</option>
-        <option>ลิฟต์ในบ้าน</option>
-        <option>Access Control</option>
-      </select>
+    <label>ประเภทสินค้า</label>
+    <select name="product" required>
+      <option>กลอนประตูดิจิตอล</option>
+      <option>มอเตอร์ประตูไฟฟ้า</option>
+      <option>ประตูโรงรถ</option>
+      <option>ลิฟต์ในบ้าน</option>
+      <option>Access Control</option>
+    </select>
 
-      <label>รุ่นสินค้า</label>
-      <input type="text" name="model" />
+    <label>รุ่นสินค้า</label>
+    <input type="text" name="model">
 
-      <label>อาการที่พบ</label>
-      <textarea name="issue" rows="3" required></textarea>
+    <label>อาการที่พบ</label>
+    <textarea name="issue" required></textarea>
 
-      <label>แนบรูปภาพ</label>
-      <input type="file" accept="image/*" onchange="previewFileLink(event, 'imageLink')" />
-      <a id="imageLink" class="preview-link" href="#" target="_blank" style="display:none;">เปิดรูปภาพ</a>
+    <label>คำอธิบายเพิ่มเติม</label>
+    <textarea name="note"></textarea>
 
-      <label>แนบวิดีโอ</label>
-      <input type="file" accept="video/*" onchange="previewFileLink(event, 'videoLink')" />
-      <a id="videoLink" class="preview-link" href="#" target="_blank" style="display:none;">เปิดวิดีโอ</a>
+    <label>แนบรูปสินค้าเสีย</label>
+    <input type="file" accept="image/*" onchange="previewUpload(event, 'imageUrl')" />
+    <span id="imageUrlPreview"></span>
 
-      <button type="submit">ส่งฟอร์ม</button>
-    </form>
-  </div>
+    <label>แนบวิดีโอปัญหา (ถ้ามี)</label>
+    <input type="file" accept="video/*" onchange="previewUpload(event, 'videoUrl')" />
+    <span id="videoUrlPreview"></span>
 
-  <script>
-    function previewFileLink(event, linkId) {
-      const file = event.target.files[0];
-      if (file) {
-        const url = URL.createObjectURL(file);
-        const link = document.getElementById(linkId);
-        link.href = url;
-        link.style.display = "inline-block";
-      }
-    }
-  </script>
+    <label>แนบรูปสลิป/สรุปคำสั่งซื้อ</label>
+    <input type="file" accept="image/*" onchange="previewUpload(event, 'purchaseProof')" />
+    <span id="purchaseProofPreview"></span>
+
+    <input type="hidden" name="imageUrl" id="imageUrl">
+    <input type="hidden" name="videoUrl" id="videoUrl">
+    <input type="hidden" name="purchaseProof" id="purchaseProof">
+
+    <button type="submit">ส่งข้อมูล</button>
+    <p id="response"></p>
+  </form>
+
+<script>
+function previewUpload(event, fieldId) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById(fieldId).value = e.target.result;
+    document.getElementById(fieldId + "Preview").innerHTML = "<a href='" + e.target.result + "' target='_blank'>ดูไฟล์ที่แนบ</a>";
+  };
+  reader.readAsDataURL(file);
+}
+
+document.getElementById("repairForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const data = {};
+  formData.forEach((value, key) => data[key] = value);
+
+  fetch("https://script.google.com/macros/s/AKfycbwalfmkFavTvF-z5Sbe4CtojaSC7e7LwfslPaLa2zLrGzSlYclqGi62OGhe60JR_Q98/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(txt => {
+    document.getElementById("response").innerText = "✅ ส่งข้อมูลสำเร็จแล้ว!";
+    document.getElementById("repairForm").reset();
+  })
+  .catch(err => {
+    document.getElementById("response").innerText = "❌ เกิดข้อผิดพลาด: " + err;
+  });
+});
+</script>
 </body>
 </html>
