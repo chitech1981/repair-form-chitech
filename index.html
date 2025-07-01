@@ -2,112 +2,20 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>ฟอร์มแจ้งซ่อมสินค้า</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #fff;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 600px;
-      background-color: #f9f9f9;
-      padding: 30px;
-      margin: 30px auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 12px;
-    }
-    .logo {
-      display: block;
-      margin: 0 auto 10px;
-      width: 60px;
-    }
-    h2 {
-      text-align: center;
-      color: #f60;
-      margin-bottom: 20px;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-    }
-    input[type="text"], input[type="tel"], textarea, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-    input[type="file"] {
-      margin-top: 5px;
-    }
-    .note {
-      font-size: 0.85em;
-      color: #444;
-      margin-bottom: 10px;
-      display: block;
-    }
-    button {
-      margin-top: 20px;
-      width: 100%;
-      background-color: #f60;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #e65000;
-    }
-  </style>
 </head>
 <body>
-  <div class="container">
-    <img src="logo.jpg" class="logo" alt="CHitech Logo">
-    <h2>ฟอร์มแจ้งซ่อมสินค้า</h2>
-    <form>
-      <label>ชื่อผู้แจ้ง</label>
-      <input type="text" name="name" required />
-
-      <label>เบอร์โทร</label>
-      <input type="tel" name="phone" required />
-
-      <label>ประเภทสินค้า</label>
-      <select name="product" required>
-        <option value="">-- เลือกประเภท --</option>
-        <option value="ประตูโรงรถ">ประตูโรงรถ</option>
-        <option value="กลอนประตูดิจิตอล">กลอนประตูดิจิตอล</option>
-        <option value="แอกเซสคอนโทรล">แอกเซสคอนโทรล</option>
-      </select>
-
-      <label>รุ่นสินค้า</label>
-      <input type="text" name="model" />
-
-      <label>อาการที่พบ</label>
-      <input type="text" name="issue" />
-
-      <label>คำอธิบายเพิ่มเติม</label>
-      <textarea name="note" rows="3"></textarea>
-
-      <label>แนบรูปปัญหาที่เสีย</label>
-      <input type="file" name="image" />
-      <span class="note">ดูไฟล์ที่แนบ</span>
-
-      <label>แนบวิดีโอปัญหา (ถ้ามี)</label>
-      <input type="file" name="video" />
-
-      <label>แนบรูปสลิป/สรุปคำสั่งซื้อ</label>
-      <input type="file" name="purchaseProof" />
-
-      <button type="submit">ส่งข้อมูล</button>
-    </form>
-  </div>
+  <form id="repairForm">
+    <label for="product">ประเภทสินค้า:</label>
+    <select id="product" name="product" required>
+      <option value="">-- กรุณาเลือกประเภทสินค้า --</option>
+      <option value="กลอนประตูดิจิตอล">กลอนประตูดิจิตอล</option>
+      <option value="มอเตอร์ประตูรีโมท">มอเตอร์ประตูรีโมท</option>
+      <option value="ประตูโรงรถ">ประตูโรงรถ</option>
+      <option value="ลิฟต์บ้าน">ลิฟต์บ้าน</option>
+      <option value="Access Control">Access Control</option>
+    </select>
+  </form>
 </body>
 </html>
