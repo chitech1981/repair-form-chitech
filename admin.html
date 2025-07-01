@@ -2,55 +2,240 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>C Hitech – Dashboard งานซ่อม</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body{background:#f7f7f7;font-family:Helvetica,Arial,sans-serif;}
-    .brand-bar{background:#ff6b00;color:#fff;padding:12px 20px;font-size:24px;font-weight:bold;}
-    .table thead{background:#ff6b00;color:#fff;}
-    .btn-primary{background:#ff6b00;border:#ff6b00;}
-  </style>
+    <meta charset="UTF-8">
+    <title>แอดมินจัดการงานซ่อม - C Hitech</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .tabs { margin-bottom: 20px; }
+        .tab-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #eee;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-weight: bold;
+        }
+        .tab-button.active {
+            border-bottom: 2px solid orange;
+            background-color: #fff;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .badge { padding: 4px 8px; border-radius: 4px; color: white; font-weight: bold; display: inline-block; margin-bottom: 4px; }
+        .urgent { background-color: red; }
+        .normal { background-color: gold; color: black; }
+        .waitpart { background-color: orange; color: black; }
+        .success { background-color: green; }
+        input[type="date"] { padding: 4px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 8px; border: 1px solid #ccc; text-align: left; }
+    </style>
 </head>
 <body>
-<div class="brand-bar">C Hitech – Dashboard งานซ่อม</div>
-<div class="container mt-4">
-  <h4 class="mb-3">รายการแจ้งซ่อม</h4>
-  <table class="table table-bordered" id="ticketTable">
+<header>
+    <img src="logo.jpg" alt="C Hitech Logo">
+    <div>
+        <h1>ระบบจัดการงานซ่อม (แอดมิน)</h1>
+        <small>C Hitech - DIGITAL DOOR LOCK</small>
+    </div>
+</header>
+<div class="container">
+    <div class="tabs">
+        <button id="btn-tab-main" class="tab-button active" onclick="switchTab('tab-main')">📋 งานแจ้งซ่อม</button>
+        <button id="btn-tab-report" class="tab-button" onclick="switchTab('tab-report')">📊 รายงาน</button>
+    </div>
+
+    <div id="tab-main" class="tab-content active">
+        
+<table>
     <thead>
-      <tr><th>ID</th><th>ชื่อ</th><th>โทร</th><th>สินค้า</th><th>รุ่น</th><th>เร่งด่วน</th><th>สถานะ</th><th>เปลี่ยนสถานะ</th></tr>
+        <tr>
+            <th>ชื่อ</th>
+            <th>สินค้า</th>
+            <th>รุ่น</th>
+            <th>อาการ</th>
+            <th>วันรับงาน</th>
+            <th>สถานะ</th>
+            <th>วันนัดคิว</th>
+        </tr>
     </thead>
-    <tbody></tbody>
-  </table>
+    <tbody>
+        <tr>
+            <td>สมชาย ใจดี</td>
+            <td>Access Control</td>
+            <td>AC-5000</td>
+            <td>เครื่องไม่สแกน</td>
+            <td>
+                <span id="receivedDate1">-</span><br>
+                <button id="receiveBtn1" onclick="receiveJob(1)">รับงาน</button>
+            </td>
+            <td>
+                <span id="badge1" class="badge" style="display:none;"></span><br>
+                <select id="statusSelect1" onchange="updateStatus(this, 'badge1', 'statusSelect1', 1)" style="display:none;">
+                    <option disabled selected>-- เลือกสถานะ --</option>
+                    <option>งานเร่งด่วน</option>
+                    <option>งานรอได้</option>
+                    <option>รออะไหล่</option>
+                    <option>แก้ไขสำเร็จ</option>
+                </select>
+            </td>
+            <td>
+                <span id="scheduleText1">รอนัดหมาย</span><br>
+                <input type="date" id="scheduleDate1" onchange="saveAppointment(1)" style="display:none;">
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+        <!-- คุณสามารถใส่ระบบงานซ่อมที่มีอยู่เดิมไว้ใน div นี้ -->
+    </div>
+
+    <div id="tab-report" class="tab-content">
+        <h3>รายงานสรุปงานซ่อม</h3>
+        <label>เลือกช่วงวันที่</label>
+        <input type="date" id="startDate" value="2025-07-01">
+        <input type="date" id="endDate" value="2025-07-01">
+        <button onclick="filterReport()">แสดงรายงาน</button>
+        <button onclick="printReport()">🖨️ พิมพ์ / ส่งออก PDF</button>
+
+        <div id="reportArea">
+            <table>
+                <thead>
+                    <tr>
+                        <th>วันที่</th>
+                        <th>ชื่อ</th>
+                        <th>สินค้า</th>
+                        <th>รุ่น</th>
+                        <th>สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody id="reportTable">
+                    <!-- รายงานจะถูกแสดงที่นี่ -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<footer class="mt-5 mb-3 text-center">© 2025 C Hitech Solutions</footer>
 <script>
-function loadTickets(){
-  const tbody=document.querySelector('#ticketTable tbody');
-  tbody.innerHTML='';
-  const tickets = JSON.parse(localStorage.getItem('tickets') || '[]');
-  tickets.forEach((t,idx)=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${t.id}</td><td>${t.customerName}</td><td>${t.phone}</td>
-    <td>${t.product}</td><td>${t.model}</td><td>${t.urgency}</td><td>${t.status}</td>
-    <td><select data-index="${idx}" class="form-select form-select-sm statusSelect">
-      <option ${t.status==='รับงานซ่อม'?'selected':''}>รับงานซ่อม</option>
-      <option ${t.status==='กำหนดวันซ่อม'?'selected':''}>กำหนดวันซ่อม</option>
-      <option ${t.status==='เข้างานเรียบร้อย'?'selected':''}>เข้างานเรียบร้อย</option>
-    </select></td>`;
-    tbody.appendChild(tr);
-  });
-  document.querySelectorAll('.statusSelect').forEach(sel=>{
-    sel.addEventListener('change',function(){
-      const tickets=JSON.parse(localStorage.getItem('tickets')||'[]');
-      tickets[this.dataset.index].status=this.value;
-      localStorage.setItem('tickets', JSON.stringify(tickets));
-      loadTickets();
-    });
-  });
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        document.getElementById('btn-' + tabId).classList.add('active');
+    }
+
+    const sampleData = [
+        { date: '2025-07-01', name: 'สมชาย ใจดี', product: 'Access Control', model: 'AC-5000', status: 'งานเร่งด่วน' },
+        { date: '2025-07-01', name: 'ศิริพร แสงทอง', product: 'ประตูโรงรถ', model: 'G-200', status: 'งานรอได้' },
+        { date: '2025-07-02', name: 'ชัยวัฒน์ วงศ์แก้ว', product: 'กลอนประตูดิจิตอล', model: 'DL-900', status: 'แก้ไขสำเร็จ' }
+    ];
+
+    function filterReport() {
+        const start = document.getElementById("startDate").value;
+        const end = document.getElementById("endDate").value;
+        const tbody = document.getElementById("reportTable");
+        tbody.innerHTML = "";
+        sampleData.forEach(row => {
+            if (row.date >= start && row.date <= end) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${row.date}</td><td>${row.name}</td><td>${row.product}</td><td>${row.model}</td><td>${row.status}</td>`;
+                tbody.appendChild(tr);
+            }
+        });
+    }
+
+    function printReport() {
+        const report = document.getElementById("reportArea").innerHTML;
+        const win = window.open('', '', 'width=900,height=700');
+        win.document.write('<html><head><title>รายงานสรุป</title></head><body>' + report + '
+<script>
+function receiveJob(rowId) {
+    const now = new Date().toLocaleString("th-TH");
+    document.getElementById("receivedDate" + rowId).innerText = now;
+    document.getElementById("statusSelect" + rowId).style.display = "inline";
+    document.getElementById("receiveBtn" + rowId).style.display = "none";
 }
-loadTickets();
+
+function updateStatus(selectEl, badgeId, selectId, rowId) {
+    const selected = selectEl.value;
+    const badge = document.getElementById(badgeId);
+    badge.style.display = "inline";
+    badge.innerText = selected;
+
+    const badgeClass = {
+        "งานเร่งด่วน": "urgent",
+        "งานรอได้": "normal",
+        "รออะไหล่": "waitpart",
+        "แก้ไขสำเร็จ": "success"
+    }[selected] || "";
+
+    badge.className = "badge " + badgeClass;
+
+    const dateInput = document.getElementById("scheduleDate" + rowId);
+    if (selected === "แก้ไขสำเร็จ") {
+        dateInput.style.display = "none";
+        document.getElementById("scheduleText" + rowId).innerText = "ไม่ต้องนัดหมาย (ปิดงานแล้ว)";
+    } else {
+        dateInput.style.display = "inline";
+        document.getElementById("scheduleText" + rowId).innerText = "รอนัดหมาย";
+    }
+}
+
+function saveAppointment(rowId) {
+    const input = document.getElementById("scheduleDate" + rowId);
+    if (input.value) {
+        document.getElementById("scheduleText" + rowId).innerText = input.value;
+    }
+}
 </script>
+
+</body></html>');
+        win.document.close();
+        win.print();
+    }
+</script>
+
+<script>
+function receiveJob(rowId) {
+    const now = new Date().toLocaleString("th-TH");
+    document.getElementById("receivedDate" + rowId).innerText = now;
+    document.getElementById("statusSelect" + rowId).style.display = "inline";
+    document.getElementById("receiveBtn" + rowId).style.display = "none";
+}
+
+function updateStatus(selectEl, badgeId, selectId, rowId) {
+    const selected = selectEl.value;
+    const badge = document.getElementById(badgeId);
+    badge.style.display = "inline";
+    badge.innerText = selected;
+
+    const badgeClass = {
+        "งานเร่งด่วน": "urgent",
+        "งานรอได้": "normal",
+        "รออะไหล่": "waitpart",
+        "แก้ไขสำเร็จ": "success"
+    }[selected] || "";
+
+    badge.className = "badge " + badgeClass;
+
+    const dateInput = document.getElementById("scheduleDate" + rowId);
+    if (selected === "แก้ไขสำเร็จ") {
+        dateInput.style.display = "none";
+        document.getElementById("scheduleText" + rowId).innerText = "ไม่ต้องนัดหมาย (ปิดงานแล้ว)";
+    } else {
+        dateInput.style.display = "inline";
+        document.getElementById("scheduleText" + rowId).innerText = "รอนัดหมาย";
+    }
+}
+
+function saveAppointment(rowId) {
+    const input = document.getElementById("scheduleDate" + rowId);
+    if (input.value) {
+        document.getElementById("scheduleText" + rowId).innerText = input.value;
+    }
+}
+</script>
+
 </body>
 </html>

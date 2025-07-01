@@ -2,73 +2,67 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>C Hitech – แจ้งซ่อมสินค้า</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>ฟอร์มแจ้งซ่อม - C Hitech</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    body{background:#f8f9fa;font-family:Helvetica,Arial,sans-serif;}
-    .brand-bar{background:#ff6b00;color:#fff;padding:12px 20px;font-size:24px;font-weight:bold;}
-    .form-section{background:#fff;border-radius:8px;padding:24px;margin-top:20px;box-shadow:0 2px 6px rgba(0,0,0,.05);}
-    .btn-primary{background:#ff6b00;border:#ff6b00;}
-    .btn-primary:hover{background:#e25f00;border:#e25f00;}
-    footer{margin-top:40px;font-size:12px;color:#666;text-align:center;}
+    label { font-weight: bold; display: block; margin-top: 15px; }
+    .preview-link { margin-top: 5px; display: block; color: blue; text-decoration: underline; }
   </style>
 </head>
 <body>
-<div class="brand-bar">C Hitech – ระบบแจ้งซ่อม</div>
-<div class="container">
-  <div class="form-section">
-    <h3 class="mb-3">แบบฟอร์มแจ้งซ่อมสินค้า</h3>
-    <form id="repairForm">
-      <div class="row g-3">
-        <div class="col-md-6"><label class="form-label">ชื่อ-นามสกุล</label><input type="text" class="form-control" name="customerName" required></div>
-        <div class="col-md-6"><label class="form-label">เบอร์โทร</label><input type="tel" class="form-control" name="phone" required></div>
-        <div class="col-md-6">
-          <label class="form-label">ประเภทสินค้า</label>
-          <select class="form-select" name="product" required>
-            <option value="">-- เลือกสินค้า --</option>
-            <option>กลอนประตูดิจิตอล</option>
-            <option>มอเตอร์ประตูไฟฟ้า</option>
-            <option>ประตูโรงรถ</option>
-            <option>ลิฟท์ในบ้าน</option>
-          </select>
-        </div>
-        <div class="col-md-6"><label class="form-label">รุ่นสินค้า / รหัสรุ่น</label><input type="text" class="form-control" name="model"></div>
-        <div class="col-md-12">
-          <label class="form-label">ระดับความเร่งด่วน</label><br>
-          <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="urgency" value="เร่งด่วน" required><label class="form-check-label">เร่งด่วน</label></div>
-          <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="urgency" value="ปานกลาง"><label class="form-check-label">ปานกลาง</label></div>
-          <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="urgency" value="รออะไหล่"><label class="form-check-label">รออะไหล่</label></div>
-        </div>
-        <div class="col-md-12"><label class="form-label">อาการเสีย</label><textarea class="form-control" name="issue" rows="3" required></textarea></div>
-        <div class="col-md-6"><label class="form-label">วันที่สะดวกนัดซ่อม</label><input type="date" class="form-control" name="visitDate"></div>
-        <div class="col-md-6"><label class="form-label">เวลาที่สะดวก</label><input type="time" class="form-control" name="visitTime"></div>
-        <div class="col-12"><label class="form-label">ที่อยู่ / พิกัด</label><textarea class="form-control" name="address" rows="2"></textarea></div>
-        <div class="col-12"><label class="form-label">แนบรูปภาพ</label><input type="file" class="form-control" name="image"></div>
-        <div class="col-12"><label class="form-label">แนบวิดีโอ</label><input type="file" class="form-control" name="video"></div>
-        <div class="col-12"><label class="form-label">แนบใบเสร็จ</label><input type="file" class="form-control" name="receipt"></div>
-      </div>
-      <hr class="my-4">
-      <button type="submit" class="btn btn-primary px-4">ส่งแบบฟอร์ม</button>
+  <header>
+    <img src="logo.jpg" alt="C Hitech Logo" />
+    <div>
+      <h1>ฟอร์มแจ้งซ่อม</h1>
+      <small>C Hitech - DIGITAL DOOR LOCK</small>
+    </div>
+  </header>
+  <div class="container">
+    <form>
+      <label>ชื่อผู้แจ้ง</label>
+      <input type="text" name="name" required />
+
+      <label>เบอร์ติดต่อ</label>
+      <input type="tel" name="phone" required />
+
+      <label>ประเภทสินค้า</label>
+      <select name="product" required>
+        <option>กลอนประตูดิจิตอล</option>
+        <option>มอเตอร์ประตูไฟฟ้า</option>
+        <option>ประตูโรงรถ</option>
+        <option>ลิฟต์ในบ้าน</option>
+        <option>Access Control</option>
+      </select>
+
+      <label>รุ่นสินค้า</label>
+      <input type="text" name="model" />
+
+      <label>อาการที่พบ</label>
+      <textarea name="issue" rows="3" required></textarea>
+
+      <label>แนบรูปภาพ</label>
+      <input type="file" accept="image/*" onchange="previewFileLink(event, 'imageLink')" />
+      <a id="imageLink" class="preview-link" href="#" target="_blank" style="display:none;">เปิดรูปภาพ</a>
+
+      <label>แนบวิดีโอ</label>
+      <input type="file" accept="video/*" onchange="previewFileLink(event, 'videoLink')" />
+      <a id="videoLink" class="preview-link" href="#" target="_blank" style="display:none;">เปิดวิดีโอ</a>
+
+      <button type="submit">ส่งฟอร์ม</button>
     </form>
-    <div id="submitSuccess" class="alert alert-success mt-4 d-none">ส่งแบบฟอร์มสำเร็จ!</div>
   </div>
-</div>
-<footer class="mt-5 mb-3">© 2025 C Hitech Solutions</footer>
-<script>
-document.getElementById('repairForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  const data = Object.fromEntries(new FormData(this).entries());
-  const tickets = JSON.parse(localStorage.getItem('tickets') || '[]');
-  data.status = 'รับงานซ่อม';
-  data.id = 'T' + (tickets.length + 1).toString().padStart(4,'0');
-  tickets.push(data);
-  localStorage.setItem('tickets', JSON.stringify(tickets));
-  this.reset();
-  document.getElementById('submitSuccess').classList.remove('d-none');
-  setTimeout(()=>document.getElementById('submitSuccess').classList.add('d-none'), 4000);
-});
-</script>
+
+  <script>
+    function previewFileLink(event, linkId) {
+      const file = event.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        const link = document.getElementById(linkId);
+        link.href = url;
+        link.style.display = "inline-block";
+      }
+    }
+  </script>
 </body>
 </html>
