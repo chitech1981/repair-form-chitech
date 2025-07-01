@@ -1,38 +1,100 @@
 
 <!DOCTYPE html>
 <html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <title>แอดมินจัดการงานซ่อม - C Hitech</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .tabs { margin-bottom: 20px; }
-        .tab-button {
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: #eee;
-            border: none;
-            border-bottom: 2px solid transparent;
-            font-weight: bold;
-        }
-        .tab-button.active {
-            border-bottom: 2px solid orange;
-            background-color: #fff;
-        }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
 
-        .badge { padding: 4px 8px; border-radius: 4px; color: white; font-weight: bold; display: inline-block; margin-bottom: 4px; }
-        .urgent { background-color: red; }
-        .normal { background-color: gold; color: black; }
-        .waitpart { background-color: orange; color: black; }
-        .success { background-color: green; }
-        input[type="date"] { padding: 4px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 8px; border: 1px solid #ccc; text-align: left; }
-    </style>
+<head>
+  <meta charset="UTF-8">
+  <title>CHitech Admin Dashboard</title>
+  <style>
+
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead tr {
+        display: none;
+      }
+      td {
+        border: none;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+        padding-left: 50%;
+      }
+      td::before {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 45%;
+        white-space: nowrap;
+        font-weight: bold;
+        color: #ff6600;
+      }
+      td:nth-of-type(1)::before { content: "ชื่อลูกค้า"; }
+      td:nth-of-type(2)::before { content: "สินค้า"; }
+      td:nth-of-type(3)::before { content: "รุ่น"; }
+      td:nth-of-type(4)::before { content: "อาการเสีย"; }
+      td:nth-of-type(5)::before { content: "รับงาน"; }
+      td:nth-of-type(6)::before { content: "สถานะงาน"; }
+      td:nth-of-type(7)::before { content: "วันนัดหมาย"; }
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1a1a1a;
+      color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #ff6600;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header img {
+      height: 40px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: #fff;
+    }
+    table {
+      width: 95%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      color: #000;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #ff6600;
+      color: #fff;
+    }
+    .badge {
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .red { background-color: #ff4d4d; color: white; }
+    .yellow { background-color: #ffc107; color: black; }
+    .green { background-color: #28a745; color: white; }
+  </style>
 </head>
+
 <body>
+
+<header>
+  <img src="https://chitechth.com/wp-content/uploads/2024/06/logo-c-hitech.png" alt="CHitech Logo">
+  <h1>ระบบแอดมินจัดการงานซ่อม - CHitech</h1>
+</header>
+
 <header>
     <img src="logo.jpg" alt="C Hitech Logo">
     <div>
@@ -148,7 +210,99 @@
     function printReport() {
         const report = document.getElementById("reportArea").innerHTML;
         const win = window.open('', '', 'width=900,height=700');
-        win.document.write('<html><head><title>รายงานสรุป</title></head><body>' + report + '
+        win.document.write('<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CHitech Admin Dashboard</title>
+  <style>
+
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead tr {
+        display: none;
+      }
+      td {
+        border: none;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+        padding-left: 50%;
+      }
+      td::before {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 45%;
+        white-space: nowrap;
+        font-weight: bold;
+        color: #ff6600;
+      }
+      td:nth-of-type(1)::before { content: "ชื่อลูกค้า"; }
+      td:nth-of-type(2)::before { content: "สินค้า"; }
+      td:nth-of-type(3)::before { content: "รุ่น"; }
+      td:nth-of-type(4)::before { content: "อาการเสีย"; }
+      td:nth-of-type(5)::before { content: "รับงาน"; }
+      td:nth-of-type(6)::before { content: "สถานะงาน"; }
+      td:nth-of-type(7)::before { content: "วันนัดหมาย"; }
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1a1a1a;
+      color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #ff6600;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header img {
+      height: 40px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: #fff;
+    }
+    table {
+      width: 95%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      color: #000;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #ff6600;
+      color: #fff;
+    }
+    .badge {
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .red { background-color: #ff4d4d; color: white; }
+    .yellow { background-color: #ffc107; color: black; }
+    .green { background-color: #28a745; color: white; }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="https://chitechth.com/wp-content/uploads/2024/06/logo-c-hitech.png" alt="CHitech Logo">
+  <h1>ระบบแอดมินจัดการงานซ่อม - CHitech</h1>
+</header>
+' + report + '
 <script>
 function receiveJob(rowId) {
     const now = new Date().toLocaleString("th-TH");
@@ -188,6 +342,50 @@ function saveAppointment(rowId) {
         document.getElementById("scheduleText" + rowId).innerText = input.value;
     }
 }
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("https://script.google.com/macros/s/AKfycbzd_L-Y2Qe4NOiWiMRsHoMCoDMNhTOqLhREguvE0YcNTVD3ywnT0WPdTjGtHnu0-Jsd/exec")
+    .then(response => response.json())
+    .then(data => {
+      const tbody = document.querySelector("#tab-main tbody");
+      tbody.innerHTML = "";
+
+      data.slice(1).forEach((row, index) => {
+        const rowId = index + 1;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row[1]}</td>
+          <td>${row[3]}</td>
+          <td>${row[4]}</td>
+          <td>${row[5]}</td>
+          <td>
+            <span id="receivedDate${rowId}">-</span><br>
+            <button id="receiveBtn${rowId}" onclick="receiveJob(${rowId})">รับงาน</button>
+          </td>
+          <td>
+            <span id="badge${rowId}" class="badge" style="display:none;"></span><br>
+            <select id="statusSelect${rowId}" onchange="updateStatus(this, 'badge${rowId}', 'statusSelect${rowId}', ${rowId})" style="display:none;">
+              <option disabled selected>-- เลือกสถานะ --</option>
+              <option>งานเร่งด่วน</option>
+              <option>งานรอได้</option>
+              <option>รออะไหล่</option>
+              <option>แก้ไขสำเร็จ</option>
+            </select>
+          </td>
+          <td>
+            <span id="scheduleText${rowId}">รอนัดหมาย</span><br>
+            <input type="date" id="scheduleDate${rowId}" onchange="saveAppointment(${rowId})" style="display:none;">
+          </td>`;
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(err => {
+      console.error("Fetch error:", err);
+    });
+});
 </script>
 
 </body></html>');
@@ -235,6 +433,50 @@ function saveAppointment(rowId) {
         document.getElementById("scheduleText" + rowId).innerText = input.value;
     }
 }
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("https://script.google.com/macros/s/AKfycbzd_L-Y2Qe4NOiWiMRsHoMCoDMNhTOqLhREguvE0YcNTVD3ywnT0WPdTjGtHnu0-Jsd/exec")
+    .then(response => response.json())
+    .then(data => {
+      const tbody = document.querySelector("#tab-main tbody");
+      tbody.innerHTML = "";
+
+      data.slice(1).forEach((row, index) => {
+        const rowId = index + 1;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row[1]}</td>
+          <td>${row[3]}</td>
+          <td>${row[4]}</td>
+          <td>${row[5]}</td>
+          <td>
+            <span id="receivedDate${rowId}">-</span><br>
+            <button id="receiveBtn${rowId}" onclick="receiveJob(${rowId})">รับงาน</button>
+          </td>
+          <td>
+            <span id="badge${rowId}" class="badge" style="display:none;"></span><br>
+            <select id="statusSelect${rowId}" onchange="updateStatus(this, 'badge${rowId}', 'statusSelect${rowId}', ${rowId})" style="display:none;">
+              <option disabled selected>-- เลือกสถานะ --</option>
+              <option>งานเร่งด่วน</option>
+              <option>งานรอได้</option>
+              <option>รออะไหล่</option>
+              <option>แก้ไขสำเร็จ</option>
+            </select>
+          </td>
+          <td>
+            <span id="scheduleText${rowId}">รอนัดหมาย</span><br>
+            <input type="date" id="scheduleDate${rowId}" onchange="saveAppointment(${rowId})" style="display:none;">
+          </td>`;
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(err => {
+      console.error("Fetch error:", err);
+    });
+});
 </script>
 
 </body>
